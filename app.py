@@ -21,7 +21,7 @@ def avgDifferences(firstDataFrame, secondDataFrame):
     firstDataFrame = firstDataFrame.to_numpy()
     secondDataFrame = secondDataFrame.to_numpy()
     differences = []
-    for i in range(1, len(firstDataFrame), 1):
+    for i in range(0, len(firstDataFrame), 1):
         if math.isnan(firstDataFrame[i]):
             differences.append(secondDataFrame[i] if not(math.isnan(secondDataFrame[i])) else 0)
         elif math.isnan(secondDataFrame[i]):
