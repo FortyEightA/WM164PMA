@@ -14,24 +14,23 @@ def scatterPlotToImage(dataFrame, x, y, title, mode, fileName):
     fig.update_layout(autotypenumbers='convert types', title=title, title_x = 0.5)
     fig.write_image(fileName + ".png")
     
+#Decorator to arrange values so that x is always larger than y.
+def largerSmallerDecorator(func):
+    def wrapper(x,y):
+        if x > y:
+            return func(x,y)
+        else:
+            return func(y,x)
+    return wrapper
+
 #Function that takes two dataframes and returns the average difference between individual values in the two dataframes.
 def avgDifferences(firstDataFrame, secondDataFrame):
     firstDataFrame = firstDataFrame[firstDataFrame.columns[2]].astype(float)
     secondDataFrame = secondDataFrame[secondDataFrame.columns[2]].astype(float)
-    firstDataFrame = firstDataFrame.to_numpy()
-    secondDataFrame = secondDataFrame.to_numpy()
-    differences = []
-    for i in range(1, len(firstDataFrame), 1):
-        if math.isnan(firstDataFrame[i]):
-            differences.append(secondDataFrame[i] if not(math.isnan(secondDataFrame[i])) else 0)
-        elif math.isnan(secondDataFrame[i]):
-            differences.append(firstDataFrame[i] if not(math.isnan(firstDataFrame[i])) else 0)
-        else:
-            if float(firstDataFrame[i]) > float(secondDataFrame[i]):
-                differences.append(float(firstDataFrame[i])- float(secondDataFrame[i]))
-            else:
-                differences.append(float(secondDataFrame[i]) - float(firstDataFrame[i]))
-    return np.mean(differences)
+    jointArr = pd.concat([firstDataFrame, secondDataFrame], axis=1).to_numpy()
+    diffreturn = largerSmallerDecorator(lambda x,y: x-y if not(math.isnan(x) or math.isnan(y)) else 0)
+    differences = [diffreturn(x,y) for x,y in jointArr]
+    return differences
 
 #Main Function
 def main():
