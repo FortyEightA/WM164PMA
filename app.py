@@ -4,5 +4,7 @@ def main():
     for i in data:
         print(i)
 
+    print('Goodbye, World!')
+
 if __name__ == '__main__':
     main()
