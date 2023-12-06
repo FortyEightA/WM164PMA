@@ -34,12 +34,16 @@ def largerSmallerDecorator(func):
             return func(y,x)
     return wrapper
 
+#Function that takes two values and returns the difference between them.
+@nanToZeroDecorator
+@largerSmallerDecorator
+def diffreturn(x,y):
+    return x-y
 #Function that takes two dataframes and returns the average difference between individual values in the two dataframes.
 def avgDifferences(firstDataFrame, secondDataFrame):
     firstDataFrame = firstDataFrame[firstDataFrame.columns[2]].astype(float)
     secondDataFrame = secondDataFrame[secondDataFrame.columns[2]].astype(float)
     jointArr = pd.concat([firstDataFrame, secondDataFrame], axis=1).to_numpy()
-    diffreturn = nanToZeroDecorator(largerSmallerDecorator(lambda x,y: x-y))
     differences = [diffreturn(x,y) for x,y in jointArr]
     return np.mean(differences)
 
