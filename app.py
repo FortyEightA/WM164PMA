@@ -14,6 +14,17 @@ def scatterPlotToImage(dataFrame, x, y, title, mode, fileName):
     fig.update_layout(autotypenumbers='convert types', title=title, title_x = 0.5)
     fig.write_image(fileName + ".png")
     
+#Decorator to change nan values to 0.
+def nanToZeroDecorator(func):
+    def wrapper(x,y):
+        if math.isnan(x):
+            return func(0,y) if not(math.isnan(y)) else func(0,0)
+        elif math.isnan(y):
+            return func(x,0) if not(math.isnan(x)) else func(0,0)
+        else:
+            return func(x,y)
+    return wrapper
+
 #Decorator to arrange values so that x is always larger than y.
 def largerSmallerDecorator(func):
     def wrapper(x,y):
@@ -28,7 +39,7 @@ def avgDifferences(firstDataFrame, secondDataFrame):
     firstDataFrame = firstDataFrame[firstDataFrame.columns[2]].astype(float)
     secondDataFrame = secondDataFrame[secondDataFrame.columns[2]].astype(float)
     jointArr = pd.concat([firstDataFrame, secondDataFrame], axis=1).to_numpy()
-    diffreturn = largerSmallerDecorator(lambda x,y: x-y if not(math.isnan(x) or math.isnan(y)) else 0)
+    diffreturn = nanToZeroDecorator(largerSmallerDecorator(lambda x,y: x-y))
     differences = [diffreturn(x,y) for x,y in jointArr]
     return differences
 
