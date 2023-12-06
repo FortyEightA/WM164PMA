@@ -5,13 +5,14 @@ import plotly.graph_objects as go
 import scipy.stats as stats
 import kaleido
 
+#Function that takes a dataframe, x and y axis, title, mode, and file name and creates a scatter plot image.
 def scatterPlotToImage(dataFrame, x, y, title, mode, fileName):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=dataFrame[x], y=dataFrame[y], mode = mode))
     fig.update_layout(autotypenumbers='convert types', title=title, title_x = 0.5)
     fig.write_image(fileName + ".png")
     
-
+#Main Function
 def main():
     mainDataFrame = pd.read_csv('DTS WM164.csv')
     dataDataFrame = mainDataFrame.iloc[10:,:]
