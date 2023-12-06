@@ -41,7 +41,7 @@ def avgDifferences(firstDataFrame, secondDataFrame):
     jointArr = pd.concat([firstDataFrame, secondDataFrame], axis=1).to_numpy()
     diffreturn = nanToZeroDecorator(largerSmallerDecorator(lambda x,y: x-y))
     differences = [diffreturn(x,y) for x,y in jointArr]
-    return differences
+    return np.mean(differences)
 
 #Main Function
 def main():
