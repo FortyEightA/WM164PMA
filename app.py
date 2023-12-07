@@ -66,7 +66,6 @@ def avg_differences(first_data_frame, second_data_frame):
 #                           Main Function                             #
 #######################################################################
 
->>>>>>> decorator-listcomp-avgdiff
 # Main Function
 
 
@@ -84,7 +83,6 @@ def main():
         'HCE PM1.0',
         'markers',
         'HCE PM1.0')
->>>>>>> decorator-listcomp-avgdiff
     print(avg_differences(hce_data_frame, cnc_data_frame))
     tf = time.time() - t1
     print(tf)
