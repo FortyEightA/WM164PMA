@@ -7,10 +7,12 @@ import scipy.stats as stats
 import kaleido
 import time
 
-# Function that takes a dataframe, x and y axis, title, mode, and file
-# name and creates a scatter plot image.
+#######################################################################
+# Section of code that is used to create graphs from the dataframes.  #
+#######################################################################
 
-
+# Function that takes a dataframe, x and y axis, title, mode, and file#
+#name and creates a scatter plot image.
 def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data_frame[x], y=data_frame[y], mode=mode))
@@ -19,6 +21,10 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
         title=title,
         title_x=0.5)
     fig.write_image(file_name + ".png")
+
+#######################################################################
+# Section of code that is used to find avg difference between values. #
+#######################################################################
 
 # Decorator to change nan values to 0.
 
@@ -55,6 +61,10 @@ def avg_differences(first_data_frame, second_data_frame):
     diff_return = nan_to_zero_decorator(larger_smaller_decorator(lambda x, y: x - y))
     differences = [diff_return(x, y) for x, y in jointArr]
     return np.mean(differences)
+
+#######################################################################
+#                           Main Function                             #
+#######################################################################
 
 # Main Function
 
