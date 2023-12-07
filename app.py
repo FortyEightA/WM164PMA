@@ -7,6 +7,27 @@ import scipy.stats as stats
 import kaleido
 import time
 
+class Data(pd.DataFrame):
+    def __init__(self, data, name, location):
+        super().__init__(data)
+        self._name = name 
+        self._location = location 
+
+    def get_name(self):
+        return self._name
+    def set_name(self, name):
+        self._name = name
+
+    def get_location(self):
+        return self._location
+    def set_location(self, location):
+        self._location = location
+
+    def display(self):
+        print(self.get_name())
+        print(self.get_location())
+        print(self.head())
+
 #######################################################################
 # Section of code that is used to create graphs from the dataframes.  #
 #######################################################################
@@ -74,16 +95,18 @@ def main():
     main_data_frame = pd.read_csv('DTS WM164.csv')
     data_data_frame = main_data_frame.iloc[10:, :]
     data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
-    hce_data_frame = data_data_frame.iloc[:, 0:3]
-    cnc_data_frame = data_data_frame.iloc[:, 3:6]
-    scatter_plot_to_image(
-        hce_data_frame,
-        'Time',
-        'PM1.0',
-        'HCE PM1.0',
-        'markers',
-        'HCE PM1.0')
-    print(avg_differences(hce_data_frame, cnc_data_frame))
+    hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
+    cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
+    hce_data_frame.display()
+    cnc_data_frame.display()
+    # scatter_plot_to_image(
+    #     hce_data_frame,
+    #     'Time',
+    #     'PM1.0',
+    #     'HCE PM1.0',
+    #     'markers',
+    #     'HCE PM1.0')
+    # print(avg_differences(hce_data_frame, cnc_data_frame))
     tf = time.time() - t1
     print(tf)
 
