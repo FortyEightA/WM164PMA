@@ -41,6 +41,7 @@ def float_nan_to_zero_decorator(func):
             return func(x, y)
     #Polymorphic wrapper ?
     def wrapper(x):
+        print(x)
         if math.isnan(x):
             return func(0)
         else:
