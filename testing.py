@@ -29,4 +29,14 @@ class Test_data_class():
         assert name == "new_name"
         assert location == "new_location"
 
+    def test_display(self, capsys):
+#Act
+        client = app.Data(data = self.test_df, name = self.test_name, location = self.test_location)
+        display = client.display()
+#assert
+        captured = capsys.readouterr()          
+        assert captured.out == "data\nHCE\n" + self.test_df.to_string() + "\n"
+        assert captured.err == ""
+        
+
     
