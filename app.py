@@ -67,10 +67,9 @@ def split_three_point_time(data):
     print(data_time_values)
 
 def read_csv_file(file_name):
-    with open(file_name, newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter=',')
-        for row in reader:
-            print(', '.join(row))
+    with open(file_name, newline='') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+            
 #######################################################################
 # Section of code that is used to create graphs from the dataframes.  #
 #######################################################################
@@ -85,7 +84,7 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
         title=title,
         title_x=0.5)
     fig.write_image(file_name + ".png")
-
+    
 #######################################################################
 # Section of code that is used to find avg difference between values. #
 #######################################################################
