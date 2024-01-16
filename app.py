@@ -82,12 +82,12 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
 
 
 def avg_differences(first_data_frame, second_data_frame):
-    first_data_frame = first_data_frame[first_data_frame.columns[2]]
-    second_data_frame = second_data_frame[second_data_frame.columns[2]]
-    jointArr = pd.concat([first_data_frame, second_data_frame], axis=1).astype(float).to_numpy()
-    diff_return = float_nan_to_zero_decorator(larger_smaller_decorator(lambda x, y: x - y))
-    differences = [diff_return(x, y) for x, y in jointArr]
-    return np.mean(differences)
+    clean_return = float_nan_to_zero_decorator(lambda x : x)
+    first_data_frame = [clean_return(x) for x in first_data_frame.columns[2]]
+    second_data_frame = [clean_return(x) for x in second_data_frame.columns[2]]
+    first_mean = np.mean(first_data_frame)
+    second_mean = np.mean(first_data_frame)
+    return first_mean - second_mean
 
 #######################################################################
 #                           Main Function                             #
@@ -112,8 +112,8 @@ def main():
     #     'HCE PM1.0',
     #     'markers',
     #     'HCE PM1.0')
-    # print(avg_differences(hce_data_frame, cnc_data_frame))
-    split_three_point_time(hce_data_frame)
+    print(avg_differences(hce_data_frame, cnc_data_frame))
+    # split_three_point_time(hce_data_frame)
     tf = time.time() - t1
     print(tf)
 
