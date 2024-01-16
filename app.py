@@ -28,9 +28,10 @@ import time
 #         print(self.head())
 
 class Data():
-    def __init__(self, data, name, location):
+    def __init__(self, data, name, sensor_name, location):
         self._data = data
         self._name = name
+        self._sensor_name = sensor_name
         self._location = location
              
 
@@ -65,7 +66,11 @@ def split_three_point_time(data):
     data_time_values = data.iloc[:, 1:3]
     print(data_time_values)
 
-
+def read_csv_file(file_name):
+    with open(file_name, newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for row in reader:
+            print(', '.join(row))
 #######################################################################
 # Section of code that is used to create graphs from the dataframes.  #
 #######################################################################
@@ -107,11 +112,12 @@ def avg_differences(first_data_frame, second_data_frame):
 
 def main():
     t1 = time.time()
-    main_data_frame = pd.read_csv('DTS WM164.csv')
-    data_data_frame = main_data_frame.iloc[10:, :]
-    data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
-    hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
-    cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
+    # main_data_frame = pd.read_csv('DTS WM164.csv')
+    # data_data_frame = main_data_frame.iloc[10:, :]
+    # data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
+    # hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
+    # cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
+
     # hce_data_frame.display()
     # cnc_data_frame.display()
     # scatter_plot_to_image(
@@ -122,7 +128,8 @@ def main():
     #     'markers',
     #     'HCE PM1.0')
     # print(avg_differences(hce_data_frame, cnc_data_frame))
-    split_three_point_time(hce_data_frame)
+    # split_three_point_time(hce_data_frame)
+    read_csv_file('DTS WM164.csv')
     tf = time.time() - t1
     print(tf)
 
