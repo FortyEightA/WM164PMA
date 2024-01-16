@@ -39,6 +39,12 @@ def float_nan_to_zero_decorator(func):
             return func(x, 0) if not (math.isnan(x)) else func(0, 0)
         else:
             return func(x, y)
+    #Polymorphic wrapper ?
+    def wrapper(x):
+        if math.isnan(x):
+            return func(0)
+        else:
+            return func(x)
     return wrapper
 
 # Decorator to arrange values so that x is always larger than y.
