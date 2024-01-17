@@ -63,6 +63,10 @@ def split_three_point_time(data):
     data_time_values = data.iloc[:, 1:3]
     print(data_time_values)
 
+def denanning_dataframes(data):
+    data = pd.to_numeric(data, errors='coerce')
+    return data
+
 
 #######################################################################
 # Section of code that is used to create graphs from the dataframes.  #
