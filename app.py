@@ -88,8 +88,8 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
 
 
 def avg_differences(first_data_frame, second_data_frame):
-    first_mean = first_data_frame['PM1.0'].mean()
-    second_mean = second_data_frame['PM1.0'].mean()
+    first_mean = first_data_frame[['PM1.0']].mean()
+    second_mean = second_data_frame[['PM1.0']].mean()
     return_value = larger_smaller_decorator(lambda x, y: x - y)
     return return_value(first_mean, second_mean)
 
@@ -103,9 +103,11 @@ def avg_differences(first_data_frame, second_data_frame):
 def main():
     t1 = time.time()
     main_data_frame = pd.read_csv('DTS WM164.csv')
+    data_data_frame = main_data_frame.iloc[:, 0:10]
     data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
     hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
     cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
+    print(avg_differences(hce_data_frame, cnc_data_frame))
     tf = time.time() - t1
     print(tf)
 
