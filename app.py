@@ -9,7 +9,7 @@ import time
 
 class Data(pd.DataFrame):
     def __init__(self, data, name, location):
-        super().__init__(data)
+        super().__init__(data.dropna())
         self._name = name 
         self._location = location 
 
@@ -108,8 +108,8 @@ def main():
     main_data_frame = pd.read_csv('DTS WM164.csv')
     data_data_frame = main_data_frame.iloc[10:, :]
     data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
-    hce_data_frame = Data(data_data_frame.iloc[:, 0:3].dropna(), name='HCE', location='HCE')
-    cnc_data_frame = Data(data_data_frame.iloc[:, 3:6].dropna(), name='CNC', location='CNC')
+    hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
+    cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
     # scatter_plot_to_image(
     #     hce_data_frame,
     #     'Time',
