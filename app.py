@@ -88,8 +88,8 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
 
 
 def avg_differences(first_data_frame, second_data_frame):
-    first_mean = first_data_frame[['PM1.0']].mean()
-    second_mean = second_data_frame[['PM1.0']].mean()
+    first_mean = first_data_frame['PM1.0'].mean()
+    second_mean = second_data_frame['PM1.0'].mean()
     return first_mean - second_mean
 
 #######################################################################
