@@ -63,8 +63,9 @@ def split_three_point_time(data):
     data_time_values = data.iloc[:, 1:3]
     print(data_time_values)
 
-def deNaN_dataframe(data):
-    return data.dropna()
+def deNaN(data):
+    data = data.dropna()
+    return data
 
 
 #######################################################################
