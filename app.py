@@ -63,11 +63,6 @@ def split_three_point_time(data):
     data_time_values = data.iloc[:, 1:3]
     print(data_time_values)
 
-def deNaN(data):
-    data = data.dropna()
-    return data
-
-
 #######################################################################
 # Section of code that is used to create graphs from the dataframes.  #
 #######################################################################
@@ -110,10 +105,8 @@ def main():
     main_data_frame = pd.read_csv('DTS WM164.csv')
     data_data_frame = main_data_frame.iloc[10:, :]
     data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
-    hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
-    cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
-    # hce_data_frame.display()
-    # cnc_data_frame.display()
+    hce_data_frame = Data(data_data_frame.iloc[:, 0:3].dropna(), name='HCE', location='HCE')
+    cnc_data_frame = Data(data_data_frame.iloc[:, 3:6].dropna(), name='CNC', location='CNC')
     # scatter_plot_to_image(
     #     hce_data_frame,
     #     'Time',
@@ -121,7 +114,6 @@ def main():
     #     'HCE PM1.0',
     #     'markers',
     #     'HCE PM1.0')
-    print(avg_differences(hce_data_frame, cnc_data_frame))
     # split_three_point_time(hce_data_frame)
     tf = time.time() - t1
     print(tf)
