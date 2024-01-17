@@ -52,7 +52,7 @@ class Test_avg_diff():
 
 class Test_denan():
 #Arrange
-    test_df = pd.DataFrame({'col1': [1, 2, 3, 4, 5]})
+    test_df = app.Data(data = pd.DataFrame({'col1': [1, 2, 3, 4, 5]})
     test_df_nan = pd.DataFrame({'col1': [1, 2, 3, 4, 5, float('nan')]})
 
     def test_result(self):

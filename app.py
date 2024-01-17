@@ -87,10 +87,13 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
 # between individual values in the two dataframes.
 
 
-def avg_differences(first_data, second_data):
-    first_data_mean = first_data[['PM1.0']].mean(axis=1)
-    second_data_mean = second_data[['PM1.0']].mean(axis=1)
-    return first_data_mean - second_data_mean
+def avg_differences(first_data_frame, second_data_frame):
+    print(first_data_frame)
+    first_data_frame = [clean_return(x) for x in first_data_frame]
+    second_data_frame = [clean_return(x) for x in second_data_frame.columns[2]]
+    first_mean = np.mean(first_data_frame)
+    second_mean = np.mean(first_data_frame)
+    return first_mean - second_mean
     # jointArr = pd.concat([first_data_frame, second_data_frame], axis=1).astype(float).to_numpy()
 
 #######################################################################
@@ -103,7 +106,6 @@ def avg_differences(first_data, second_data):
 def main():
     t1 = time.time()
     main_data_frame = pd.read_csv('DTS WM164.csv')
-    data_data_frame = main_data_frame.iloc[10:, :]
     data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
     hce_data_frame = Data(data_data_frame.iloc[:, 0:3].dropna(), name='HCE', location='HCE')
     cnc_data_frame = Data(data_data_frame.iloc[:, 3:6].dropna(), name='CNC', location='CNC')
