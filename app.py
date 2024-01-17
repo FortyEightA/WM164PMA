@@ -88,13 +88,9 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
 
 
 def avg_differences(first_data_frame, second_data_frame):
-    print(first_data_frame)
-    first_data_frame = [clean_return(x) for x in first_data_frame]
-    second_data_frame = [clean_return(x) for x in second_data_frame.columns[2]]
-    first_mean = np.mean(first_data_frame)
-    second_mean = np.mean(first_data_frame)
+    first_mean = first_data_frame[['PM1.0']].mean()
+    second_mean = second_data_frame[['PM1.0']].mean()
     return first_mean - second_mean
-    # jointArr = pd.concat([first_data_frame, second_data_frame], axis=1).astype(float).to_numpy()
 
 #######################################################################
 #                           Main Function                             #
@@ -110,14 +106,6 @@ def main():
     data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
     hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
     cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
-    # scatter_plot_to_image(
-    #     hce_data_frame,
-    #     'Time',
-    #     'PM1.0',
-    #     'HCE PM1.0',
-    #     'markers',
-    #     'HCE PM1.0')
-    # split_three_point_time(hce_data_frame)
     tf = time.time() - t1
     print(tf)
 
