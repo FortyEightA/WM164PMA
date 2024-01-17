@@ -57,7 +57,7 @@ class Test_denan():
 
     def test_result(self):
 #Act
-        result = app.deNaN_dataframe(self.test_df_nan)
+        result = app.deNaN(self.test_df_nan)
 #Assert 
         assert result == self.test_df 
 
