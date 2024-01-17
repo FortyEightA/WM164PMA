@@ -105,22 +105,19 @@ def avg_differences(first_data_frame, second_data_frame):
 
 
 def main():
+#Starting time to allow for working on optimising the code.
     t1 = time.time()
+
+# Reading in the data from the csv file and making one large dataframe.
     main_data_frame = pd.read_csv('DTS WM164.csv')
+# Removing all of the redundant data from the dataframe.
     data_data_frame = main_data_frame.iloc[10:, :]
+# Renaming the columns so that they are easier to work with.
     data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
+# Creating the two data objects and populating them with the data.
     hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
     cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
-    # hce_data_frame.display()
-    # cnc_data_frame.display()
-    # scatter_plot_to_image(
-    #     hce_data_frame,
-    #     'Time',
-    #     'PM1.0',
-    #     'HCE PM1.0',
-    #     'markers',
-    #     'HCE PM1.0')
-    print(avg_differences(hce_data_frame, cnc_data_frame))
+    # print(avg_differences(hce_data_frame, cnc_data_frame))
     # split_three_point_time(hce_data_frame)
     tf = time.time() - t1
     print(tf)
