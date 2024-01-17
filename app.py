@@ -88,13 +88,10 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
 # between individual values in the two dataframes.
 
 
-def avg_differences(first_data_frame, second_data_frame):
-    print(first_data_frame)
-    first_data_frame = [clean_return(x) for x in first_data_frame]
-    second_data_frame = [clean_return(x) for x in second_data_frame.columns[2]]
-    first_mean = np.mean(first_data_frame)
-    second_mean = np.mean(first_data_frame)
-    return first_mean - second_mean
+def avg_differences(first_data, second_data):
+    first_data_mean = first_data[['PM1.0']].mean(axis=1)
+    second_data_mean = second_data[['PM1.0']].mean(axis=1)
+    return first_data_mean - second_data_mean
     # jointArr = pd.concat([first_data_frame, second_data_frame], axis=1).astype(float).to_numpy()
 
 #######################################################################

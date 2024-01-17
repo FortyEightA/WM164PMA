@@ -33,10 +33,21 @@ class Test_data_class():
 #Act
         client = app.Data(data = self.test_df, name = self.test_name, location = self.test_location)
         display = client.display()
-#assert
+#Assert
         captured = capsys.readouterr()          
         assert captured.out == "data\nHCE\n" + self.test_df.to_string() + "\n"
         assert captured.err == ""
         
 
+class Test_avg_diff():
+#Arrange
+    first_test_df = pd.DataFrame({'col1': [1, 2, 3, 4, 5]})
+    second_test_df = pd.DataFrame({'col1': [6, 7, 8, 9, 10]})
     
+    def test_result(self):
+#Act
+        result = app.avg_differences(self.first_test_df, self.second_test_df)
+#Assert
+        assert result == 5
+
+
