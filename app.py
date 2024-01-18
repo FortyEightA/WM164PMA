@@ -88,7 +88,7 @@ def split_three_point_time(data):
     for i in range(0, index, 1):
         three_point_df = data.iloc[i:i + 3]
         three_point_std = three_point_df.std(
-            numeric_only=True, ddof=0, axis=0, skipna=True)
+            skipna=True)
         if three_point_std > largest_std:
             largest_std = three_point_std
     return largest_std
