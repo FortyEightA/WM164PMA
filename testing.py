@@ -61,3 +61,18 @@ class Test_numeric_decorator():
         result, result2 = app.numeric_decorator(self.simple_return)(self.control_df, self.test_df)
 #assert
         assert result.dtype == result2.dtype
+    
+class Test_three_point():
+#Arrange
+    test_df = pd.DataFrame({'PM1.0': [1, 2, 3, 6, 9, 15]})
+    def test_result(self):
+#Act
+        result = app.split_three_point_time(self.test_df)
+#Assert
+        assert result == 1
+
+        
+
+        
+
+
