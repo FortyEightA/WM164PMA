@@ -71,6 +71,7 @@ def numeric_decorator_single(func):
         return func(pd.to_numeric(x['PM1.0'], errors='coerce'))
     return wrapper
 
+
 def numeric_decorator_double(func):
     def wrapper(x, y):
         return func(
@@ -79,13 +80,19 @@ def numeric_decorator_double(func):
                 y['PM1.0'], errors='coerce'))
     return wrapper
 
+
 @numeric_decorator_single
 def split_three_point_time(data):
     index = len(data.index)
     largest_std = 0
     for i in range(0, index, 1):
-        data_time_values = data.iloc[i:i + 3, :]
-        print(np.std(data_time_values['PM1.0']))
+        three_point_df = data.iloc[i:i + 3]
+        three_point_std = three_point_df.std(
+            numeric_only=True, ddof=0, axis=0, skipna=True)
+        if three_point_std > largest_std:
+            largest_std = three_point_std
+    return largest_std
+
 
 #######################################################################
 # Section of code that is used to create graphs from the dataframes.  #
@@ -142,7 +149,7 @@ def main():
     cnc_data_frame = Data(
         data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
     # print(avg_differences(hce_data_frame, cnc_data_frame))
-    split_three_point_time(hce_data_frame)
+    print(split_three_point_time(hce_data_frame))
     tf = time.time() - t1
     print(tf)
 
