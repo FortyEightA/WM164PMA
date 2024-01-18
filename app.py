@@ -59,6 +59,14 @@ def larger_smaller_decorator(func):
             return func(y, x)
     return wrapper
 
+# Decorator to change values to numeric in dataframe.
+def numeric_decorator(func):
+    def wrapper(x):
+        return func(pd.to_numeric(x['PM1.0'], errors='coerce'))
+    def wrapper(x, y):
+        return func(pd.to_numeric(x['PM1.0'], errors='coerce'), pd.to_numeric(y['PM1.0'], errors='coerce'))
+    return wrapper
+
 def split_three_point_time(data):
     data_time_values = data.iloc[:, 1:3]
     print(data_time_values)
@@ -86,12 +94,13 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
 # Function that takes two dataframes and returns the average difference
 # between individual values in the two dataframes.
 
-
+@numeric_decorator
 def avg_differences(first_data_frame, second_data_frame):
-    first_mean = first_data_frame[['PM1.0']].mean()
-    second_mean = second_data_frame[['PM1.0']].mean()
-    return_value = larger_smaller_decorator(lambda x, y: x - y)
-    return return_value(first_mean, second_mean)
+    print(first_data_frame.mean())
+    # first_mean = first_data_frame[['PM1.0']].mean()
+    # second_mean = second_data_frame[['PM1.0']].mean()
+    # return_value = larger_smaller_decorator(lambda x, y: x - y)
+    # return return_value(first_mean, second_mean)
 
 #######################################################################
 #                           Main Function                             #

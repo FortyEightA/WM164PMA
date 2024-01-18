@@ -50,3 +50,14 @@ class Test_avg_diff():
 #Assert
         assert result == 5
 
+class Test_numeric_decorator():
+#Arrange
+    def simple_return(self, control_df, test_df):
+        return control_df, test_df
+    control_df = pd.DataFrame({'PM1.0': [1, 2, 3, 4, 5]})
+    test_df = pd.DataFrame({'PM1.0': [1, 2, 3, 4, '5']})
+    def test_result(self):
+#Act
+        result, result2 = app.numeric_decorator(self.simple_return)(self.control_df, self.test_df)
+#assert
+        assert result.dtype == result2.dtype
