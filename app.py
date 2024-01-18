@@ -7,19 +7,22 @@ import scipy.stats as stats
 import kaleido
 import time
 
+
 class Data(pd.DataFrame):
     def __init__(self, data, name, location):
         super().__init__(data.dropna())
-        self._name = name 
-        self._location = location 
+        self._name = name
+        self._location = location
 
     def get_name(self):
         return self._name
+
     def set_name(self, name):
         self._name = name
 
     def get_location(self):
         return self._location
+
     def set_location(self, location):
         self._location = location
 
@@ -39,7 +42,8 @@ def float_nan_to_zero_decorator(func):
             return func(x, 0) if not (math.isnan(x)) else func(0, 0)
         else:
             return func(x, y)
-    #Polymorphic wrapper ?
+    # Polymorphic wrapper ?
+
     def wrapper(x):
         print(x)
         if math.isnan(x):
@@ -60,12 +64,19 @@ def larger_smaller_decorator(func):
     return wrapper
 
 # Decorator to change values to numeric in dataframe.
+
+
 def numeric_decorator(func):
     def wrapper(x):
         return func(pd.to_numeric(x['PM1.0'], errors='coerce'))
+
     def wrapper(x, y):
-        return func(pd.to_numeric(x['PM1.0'], errors='coerce'), pd.to_numeric(y['PM1.0'], errors='coerce'))
+        return func(
+            pd.to_numeric(
+                x['PM1.0'], errors='coerce'), pd.to_numeric(
+                y['PM1.0'], errors='coerce'))
     return wrapper
+
 
 def split_three_point_time(data):
     data_time_values = data.iloc[:, 1:3]
@@ -76,7 +87,9 @@ def split_three_point_time(data):
 #######################################################################
 
 # Function that takes a dataframe, x and y axis, title, mode, and file#
-#name and creates a scatter plot image.
+# name and creates a scatter plot image.
+
+
 def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data_frame[x], y=data_frame[y], mode=mode))
@@ -112,9 +125,17 @@ def main():
     t1 = time.time()
     main_data_frame = pd.read_csv('DTS WM164.csv')
     data_data_frame = main_data_frame.iloc[:, 0:10]
-    data_data_frame.columns = ['Date', 'Time', 'PM1.0', 'Date', 'Time', 'PM1.0']
-    hce_data_frame = Data(data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
-    cnc_data_frame = Data(data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
+    data_data_frame.columns = [
+        'Date',
+        'Time',
+        'PM1.0',
+        'Date',
+        'Time',
+        'PM1.0']
+    hce_data_frame = Data(
+        data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
+    cnc_data_frame = Data(
+        data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
     print(avg_differences(hce_data_frame, cnc_data_frame))
     tf = time.time() - t1
     print(tf)
