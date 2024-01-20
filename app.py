@@ -4,6 +4,8 @@ from tkinter import ttk
 from tkinter.messagebox import showinfo
 import customtkinter as ctk
 
+ctk.FontManager.load_font("fonts/PublicSans-Regular.ttf")
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -20,6 +22,7 @@ class App(ctk.CTk):
         self.middle_title = ctk.CTkLabel(
             self,
             text="AQM Data Analysis",
+            font=("PublicSans-Regular", 20),
             corner_radius=6)
 
         self.middle_title.grid(
@@ -33,6 +36,7 @@ class App(ctk.CTk):
         self.mean_difference_title = ctk.CTkLabel(
             self, 
             text="Mean Difference", 
+            font=("PublicSans-Regular", 20),
             corner_radius=6)
 
         self.mean_difference_title.grid(
@@ -44,6 +48,7 @@ class App(ctk.CTk):
 
         self.mean_difference_text = ctk.CTkTextbox(
             self,
+            font=("PublicSans-Regular", 10),
             corner_radius=6)
 
         self.mean_difference_text.insert(0.0, "HCE Mean: \n")
@@ -59,6 +64,7 @@ class App(ctk.CTk):
 
         self.three_point_std_text = ctk.CTkLabel(
             self,
+            font=("PublicSans-Regular", 20),
             text="3 Point Standard Deviation",
             corner_radius=6)
         
@@ -71,6 +77,7 @@ class App(ctk.CTk):
 
         self.exit_button = ctk.CTkButton(
             self,
+            font=("PublicSans-Regular", 20),
             text="Exit",
             corner_radius=6,
             command=self.destroy)
@@ -87,6 +94,7 @@ if __name__ == "__main__":
     ctk.set_default_color_theme("nord.json")
     app = App()
     app.mainloop()
+
 # nord0 = "#2E3440"
 # nord1 = "#3B4252"
 # nord2 = "#434C5E"
