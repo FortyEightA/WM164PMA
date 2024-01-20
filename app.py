@@ -7,6 +7,33 @@ import sys
 
 ctk.FontManager.load_font("fonts/PublicSans-Regular.ttf")
 
+
+class Titles(ctk.CTkFrame):
+    def __init__(self, master, titles):
+        super().__init__(master, fg_color="transparent")
+
+        self.titles = titles
+        self.width = self.master.winfo_screenwidth()
+
+        for i, title in enumerate(self.titles):
+
+            self.grid_rowconfigure(0, weight=1)
+            self.grid_columnconfigure(i, weight=1)
+
+            self.title = ctk.CTkLabel(
+                self,
+                text=title,
+                width=(int(self.width / len(self.titles)) - 20),
+                font=("PublicSans-Regular", 20),
+                corner_radius=6)
+
+            self.title.grid(
+                column=i,
+                row=0,
+                padx=10,
+                sticky="new")
+
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -16,18 +43,11 @@ class App(ctk.CTk):
         self.attributes("-fullscreen", True)
 
         self.bind("<Escape>", lambda x: self.destroy())
-        
 
         self.grid_columnconfigure((0, 1), weight=1)
-        self.grid_rowconfigure(2, weight = 1)
+        self.grid_rowconfigure(2, weight=1)
 
-
-        self.middle_title = ctk.CTkLabel(
-            self,
-            text="AQM Data Analysis",
-            font=("PublicSans-Regular", 20),
-            corner_radius=6)
-
+        self.middle_title = Titles(self, ["AQM Data Analysis"])
         self.middle_title.grid(
             row=0,
             column=0,
@@ -36,17 +56,14 @@ class App(ctk.CTk):
             sticky="new",
             columnspan=2)
 
-        self.mean_difference_title = ctk.CTkLabel(
-            self, 
-            text="Mean Difference", 
-            font=("PublicSans-Regular", 20),
-            corner_radius=6)
-
-        self.mean_difference_title.grid(
+        self.objective_title = Titles(
+            self, ["Mean Difference", "3 Point Standard Deviation"])
+        self.objective_title.grid(
             row=1,
             column=0,
             padx=10,
             pady=(10, 0),
+            columnspan=2,
             sticky="new")
 
         self.mean_difference_text = ctk.CTkTextbox(
@@ -57,26 +74,14 @@ class App(ctk.CTk):
             state="normal",
             corner_radius=6)
 
-        self.mean_difference_text.insert(0.0, "\nHCE Mean: \n\nCNC Mean: \n\nDifference Of Mean: \n")
+        self.mean_difference_text.insert(
+            0.0, "\nHCE Mean: \n\nCNC Mean: \n\nDifference Of Mean: \n")
 
         self.mean_difference_text.configure(state="disabled")
 
         self.mean_difference_text.grid(
             row=2,
             column=0,
-            padx=10,
-            pady=(10, 0),
-            sticky="new")
-
-        self.three_point_std_title = ctk.CTkLabel(
-            self,
-            font=("PublicSans-Regular", 20),
-            text="3 Point Standard Deviation",
-            corner_radius=6)
-        
-        self.three_point_std_title.grid(
-            row=1,
-            column=1,
             padx=10,
             pady=(10, 0),
             sticky="new")
@@ -89,7 +94,9 @@ class App(ctk.CTk):
             activate_scrollbars=False,
             corner_radius=6)
 
-        self.three_point_std_text.insert(0.0, "\nLocation of Largest Three Point Standard Deviation: \n\nThree point time window: \n\nLargest Standard Deviation: \n")
+        self.three_point_std_text.insert(
+            0.0,
+            "\nLocation of Largest Three Point Standard Deviation: \n\nThree point time window: \n\nLargest Standard Deviation: \n")
 
         self.three_point_std_text.configure(state="disabled")
 
@@ -115,7 +122,6 @@ class App(ctk.CTk):
             sticky="esw",
             columnspan=2)
 
-        
 
 if __name__ == "__main__":
     ctk.set_default_color_theme("nord.json")
