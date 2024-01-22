@@ -1,6 +1,7 @@
 kaleido
 numpy
 pandas
+customtkinter
 plotly
 scipy
 pytest
