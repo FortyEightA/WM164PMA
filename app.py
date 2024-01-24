@@ -34,6 +34,34 @@ class Titles(ctk.CTkFrame):
                 sticky="new")
 
 
+class Text(ctk.CTkFrame):
+    def __init__(self, master, texts):
+        super().__init__(master, fg_color="transparent")
+
+        self.texts = texts
+        self.width = self.master.winfo_screenwidth()
+        self.textboxes = []
+
+        for i, text in enumerate(self.texts):
+            self.grid_rowconfigure(0, weight=1)
+            self.grid_columnconfigure(i, weight=1)
+
+            self.textbox = ctk.CTkTextbox(
+                self,
+                width=(int(self.width / len(self.texts)) - 20),
+                font=("PublicSans-Regular", 20),
+                activate_scrollbars=False,
+                corner_radius=6)
+            self.textbox.insert(0.0, text)
+            self.textbox.configure(state="disabled")
+            self.textbox.grid(
+                column=i,
+                row=0,
+                padx=10,
+                sticky="new")
+            self.textboxes.append(self.textbox)
+
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -66,43 +94,14 @@ class App(ctk.CTk):
             columnspan=2,
             sticky="new")
 
-        self.mean_difference_text = ctk.CTkTextbox(
+        self.textboxes = Text(
             self,
-            font=("PublicSans-Regular", 20),
-            height=183,
-            activate_scrollbars=False,
-            state="normal",
-            corner_radius=6)
-
-        self.mean_difference_text.insert(
-            0.0, "\nHCE Mean: \n\nCNC Mean: \n\nDifference Of Mean: \n")
-
-        self.mean_difference_text.configure(state="disabled")
-
-        self.mean_difference_text.grid(
+            [
+                "\nHCE Mean: \n\nCNC Mean: \n\nDifference Of Mean: \n",
+                "\nLocation of Largest Three Point Standard Deviation: \n\nThree point time window: \n\nLargest Standard Deviation: \n"])
+        self.textboxes.grid(
             row=2,
             column=0,
-            padx=10,
-            pady=(10, 0),
-            sticky="new")
-
-        self.three_point_std_text = ctk.CTkTextbox(
-            self,
-            font=("PublicSans-Regular", 20),
-            height=183,
-            state="normal",
-            activate_scrollbars=False,
-            corner_radius=6)
-
-        self.three_point_std_text.insert(
-            0.0,
-            "\nLocation of Largest Three Point Standard Deviation: \n\nThree point time window: \n\nLargest Standard Deviation: \n")
-
-        self.three_point_std_text.configure(state="disabled")
-
-        self.three_point_std_text.grid(
-            row=2,
-            column=1,
             padx=10,
             pady=(10, 0),
             sticky="new")
