@@ -124,7 +124,7 @@ def avg_differences(first_data_frame, second_data_frame):
     first_mean = first_data_frame.mean()
     second_mean = second_data_frame.mean()
     return_value = larger_smaller_decorator(lambda x, y: x - y)
-    return return_value(first_mean, second_mean)
+    return first_mean, second_mean, return_value(first_mean, second_mean)
 
 #######################################################################
 #                           Main Function                             #
@@ -132,6 +132,21 @@ def avg_differences(first_data_frame, second_data_frame):
 
 # Main Function
 
+def read_data():
+    main_data_frame = pd.read_csv('DTS WM164.csv')
+    data_data_frame = main_data_frame.iloc[8:, :]
+    data_data_frame.columns = [
+        'Date',
+        'Time',
+        'PM1.0',
+        'Date',
+        'Time',
+        'PM1.0']
+    hce_data_frame = Data(
+        data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
+    cnc_data_frame = Data(
+        data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
+    return hce_data_frame, cnc_data_frame
 
 # def main():
 #     t1 = time.time()
