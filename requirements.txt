@@ -3,5 +3,6 @@ numpy
 pandas
 customtkinter
 plotly
+pillow
 scipy
 pytest

@@ -7,6 +7,7 @@ import scipy.stats as stats
 import kaleido
 import time
 
+
 class Data(pd.DataFrame):
     def __init__(self, data, name, location):
         super().__init__(data.dropna())
@@ -29,6 +30,23 @@ class Data(pd.DataFrame):
         print(self.get_name())
         print(self.get_location())
         print(self.head())
+
+    def create_graph(self):
+        scatter_plot_to_image(
+            self,
+            'Time',
+            'PM1.0',
+            self.get_name(),
+            'markers',
+            self.get_name()
+        )
+        box_plot_to_image(
+            self,
+            'PM1.0',
+            self.get_name(),
+            self.get_name()
+        )
+
 
 # Decorator to change nan values to 0.
 # Used previously to change nan values to 0, but now preceded with .dropna()
@@ -109,8 +127,22 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
         autotypenumbers='convert types',
         title=title,
         title_x=0.5)
-    fig.write_image(file_name + ".png")
+    fig.write_image(
+        "graphs/" +
+        file_name +
+        "/" +
+        file_name +
+        " Scatter Graph.png", scale = 5)
 
+
+def box_plot_to_image(data_frame, y, title, file_name):
+    fig = px.box(data_frame, y=data_frame[y], title=title)
+    fig.update_layout(
+        autotypenumbers='convert types',
+        title=title,
+        title_x=0.5
+    )
+    fig.write_image("graphs/" + file_name + "/" + file_name + " Box Plot.png", scale = 5)
 #######################################################################
 # Section of code that is used to find avg difference between values. #
 #######################################################################
@@ -131,6 +163,7 @@ def avg_differences(first_data_frame, second_data_frame):
 #######################################################################
 
 # Main Function
+
 
 def read_data():
     main_data_frame = pd.read_csv('DTS WM164.csv')
