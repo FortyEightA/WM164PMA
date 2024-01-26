@@ -25,7 +25,7 @@ class Titles(ctk.CTkFrame):
                 self.title = ctk.CTkLabel(
                     self,
                     text=each_label_in_row,
-                    width=(int(self.width / len(self.titles)) - 20),
+                    width=(int(self.width / len(column)) - 20),
                     font=("PublicSans-Regular", 20),
                     corner_radius=6)
                 self.title.grid(
@@ -107,16 +107,14 @@ class App(ctk.CTk):
                                         "Difference Of Mean:"],
                                        ["Largest Three Point of HCE:",
                                         "Largest Three Point of CNC:",
-                                        "Largest Standard Deviation:"]],
-                                      fg_color_input="#434C5E")
+                                        "Largest Standard Deviation:"]])
         self.main_text_boxes.grid(
             row=2,
             column=0,
-            padx=20,
+            padx=10,
             pady=(10, 0),
             columnspan=2,
             sticky="new")
-
         self.exit_button = ctk.CTkButton(
             self,
             font=("PublicSans-Regular", 20),
@@ -167,16 +165,22 @@ if __name__ == "__main__":
         lambda x, y: x if x > y else y)(
         hce_std, cnc_std)
 
-    app.main_text_boxes.title_arr[0][0].configure(text=f"HCE Mean: {hce_mean}")
-    app.main_text_boxes.title_arr[0][1].configure(text=f"CNC Mean: {cnc_mean}")
+    app.main_text_boxes.title_arr[0][0].configure(text=f"HCE Mean: {hce_mean}",
+                                                  corner_radius=0)
+    app.main_text_boxes.title_arr[0][1].configure(text=f"CNC Mean: {cnc_mean}",
+                                                  corner_radius=0)
     app.main_text_boxes.title_arr[0][2].configure(
-        text=f"Difference Of Mean: {difference_of_mean}")
+        text=f"Difference Of Mean: {difference_of_mean}",
+    corner_radius=0)
     app.main_text_boxes.title_arr[1][0].configure(
-        text=f"Largest Three Point of HCE: {hce_std}")
+        text=f"Largest Three Point of HCE: {hce_std}",
+    corner_radius=0)
     app.main_text_boxes.title_arr[1][1].configure(
-        text=f"Largest Three Point of CNC: {cnc_std}")
+        text=f"Largest Three Point of CNC: {cnc_std}",
+    corner_radius=0)
     app.main_text_boxes.title_arr[1][2].configure(
-        text=f"Largest Standard Deviation: {largest_std}")
+        text=f"Largest Standard Deviation: {largest_std}",
+    corner_radius=0)
 
     hce_data_frame.create_graph()
     cnc_data_frame.create_graph()
