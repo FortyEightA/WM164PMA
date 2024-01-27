@@ -52,7 +52,7 @@ class Images(ctk.CTkFrame):
             self.image = ctk.CTkImage(
                 light_image=Image.open(path_to_images[i]),
                 dark_image=Image.open(path_to_images[i]),
-                size=(int(self.width / len(self.path_to_images)) + 50, self.height),
+                size=(int(self.width / len(self.path_to_images)) - 100, self.height),
             )
             self.image_frame = ctk.CTkLabel(
                 self,
@@ -67,6 +67,12 @@ class Images(ctk.CTkFrame):
                 padx=10,
                 sticky="new")
 
+class Tab(ctk.CTkTabview):
+    def __init__(self, master):
+        super().__init__(master)
+    
+        self.add("HCE")
+        self.add("CNC")
 
 class App(ctk.CTk):
     def __init__(self):
@@ -115,6 +121,16 @@ class App(ctk.CTk):
             pady=(10, 0),
             columnspan=2,
             sticky="new")
+
+        self.tab = Tab(self)
+        self.tab.grid(
+            row=3,
+            column=0,
+            padx=10,
+            pady=(10, 0),
+            columnspan=2,
+            sticky="new")
+
         self.exit_button = ctk.CTkButton(
             self,
             font=("PublicSans-Regular", 20),
@@ -123,25 +139,25 @@ class App(ctk.CTk):
             command=self.destroy)
 
         self.exit_button.grid(
-            row=5,
+            row=4,
             column=0,
-            padx=10,
+            padx=20,
             pady=(10, 10),
             sticky="esw",
             columnspan=2)
 
-    def create_images(self, images_to_display, path_to_images, image_height):
-        self.image_labels = Titles(self, images_to_display)
+    def create_images(self, tab, images_to_display, path_to_images, image_height):
+        self.image_labels = Titles(tab, images_to_display)
         self.image_labels.grid(
-            row=3,
+            row=0,
             column=0,
             padx=10,
             pady=(10, 0),
             columnspan=2,
             sticky="new")
-        self.images = Images(self, path_to_images, image_height)
+        self.images = Images(tab, path_to_images, image_height)
         self.images.grid(
-            row=4,
+            row=1,
             column=0,
             padx=10,
             pady=(10, 0),
@@ -184,12 +200,20 @@ if __name__ == "__main__":
 
     hce_data_frame.create_graph()
     cnc_data_frame.create_graph()
+    
+    HCE_image_tab = app.tab.tab("HCE")
+    CNC_image_tab = app.tab.tab("CNC")
 
-    images_to_display = [["HCE Scatter Graph"], ["HCE Box Plot"]]
-    path_to_images = [
+    HCE_images_to_display = [["HCE Scatter Graph"], ["HCE Box Plot"]]
+    HCE_path_to_images = [
         "graphs/HCE/HCE Scatter Graph.png",
         "graphs/HCE/HCE Box Plot.png"]
+    CNC_images_to_display = [["CNC Scatter Graph"], ["CNC Box Plot"]]
+    CNC_path_to_images = [
+        "graphs/CNC/CNC Scatter Graph.png",
+        "graphs/CNC/CNC Box Plot.png"]
 
     graph_height = 900
-    app.create_images(images_to_display, path_to_images, graph_height)
+    app.create_images(HCE_image_tab, HCE_images_to_display, HCE_path_to_images, graph_height)
+    app.create_images(CNC_image_tab, CNC_images_to_display, CNC_path_to_images, graph_height)
     app.mainloop()
