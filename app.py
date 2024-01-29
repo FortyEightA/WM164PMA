@@ -123,6 +123,7 @@ class App(ctk.CTk):
             sticky="new")
 
         self.tab = Tab(self)
+        self.tab.grid_columnconfigure((0, 1), weight=1)
         self.tab.grid(
             row=3,
             column=0,
@@ -213,7 +214,7 @@ if __name__ == "__main__":
         "graphs/CNC/CNC Scatter Graph.png",
         "graphs/CNC/CNC Box Plot.png"]
 
-    graph_height = 900
+    graph_height = 500
     app.create_images(HCE_image_tab, HCE_images_to_display, HCE_path_to_images, graph_height)
     app.create_images(CNC_image_tab, CNC_images_to_display, CNC_path_to_images, graph_height)
     app.mainloop()
