@@ -1,4 +1,5 @@
 import tkinter as tk
+import inspect
 import util
 from tkinter import ttk
 from tkinter.messagebox import showinfo
@@ -14,7 +15,12 @@ class Titles(ctk.CTkFrame):
         super().__init__(master, fg_color=fg_color_input)
 
         self.titles = titles
-        self.width = self.master.winfo_screenwidth()
+        if isinstance(master, App):
+            self.width = self.winfo_screenwidth()
+        elif isinstance(master, Tab):
+            self.width = self.master.cget("width")
+
+        self.width = self.cget("width")
 # Array for each column
         self.title_arr = [[], [], [], [], [], [], [], []]
 
@@ -41,8 +47,14 @@ class Images(ctk.CTkFrame):
         super().__init__(master, fg_color="transparent")
 
         self.path_to_images = path_to_images
+        print(isinstance(master, App))
+        print(isinstance(master, ctk.CTkTabview))
 
-        self.width = self.master.winfo_screenwidth()
+        if isinstance(master, App):
+            self.width = self.winfo_screenwidth()
+        elif isinstance(master, Tab):
+            self.width = self.master.cget("width")
+
         self.height = height
 
         for i, image in enumerate(self.path_to_images):
@@ -52,7 +64,7 @@ class Images(ctk.CTkFrame):
             self.image = ctk.CTkImage(
                 light_image=Image.open(path_to_images[i]),
                 dark_image=Image.open(path_to_images[i]),
-                size=(int(self.width / len(self.path_to_images)) - 100, self.height),
+                size=(int(self.width / len(self.path_to_images)) - 20, self.height),
             )
             self.image_frame = ctk.CTkLabel(
                 self,
@@ -214,7 +226,7 @@ if __name__ == "__main__":
         "graphs/CNC/CNC Scatter Graph.png",
         "graphs/CNC/CNC Box Plot.png"]
 
-    graph_height = 500
+    graph_height = 700
     app.create_images(HCE_image_tab, HCE_images_to_display, HCE_path_to_images, graph_height)
     app.create_images(CNC_image_tab, CNC_images_to_display, CNC_path_to_images, graph_height)
     app.mainloop()
