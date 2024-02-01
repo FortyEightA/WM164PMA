@@ -17,8 +17,9 @@ class Titles(ctk.CTkFrame):
         self.titles = titles
         if isinstance(master, App):
             self.width = self.winfo_screenwidth()
-        elif isinstance(master, Tab):
+        elif isinstance(master, ctk.CTkFrame):
             self.width = self.master.cget("width")
+            print(self.width)
 
         self.width = self.cget("width")
 # Array for each column
@@ -47,12 +48,11 @@ class Images(ctk.CTkFrame):
         super().__init__(master, fg_color="transparent")
 
         self.path_to_images = path_to_images
-        print(isinstance(master, App))
-        print(isinstance(master, ctk.CTkTabview))
+        print(isinstance(master, ctk.CTkFrame))
 
         if isinstance(master, App):
             self.width = self.winfo_screenwidth()
-        elif isinstance(master, Tab):
+        elif isinstance(master, ctk.CTkFrame):
             self.width = self.master.cget("width")
 
         self.height = height
@@ -227,6 +227,6 @@ if __name__ == "__main__":
         "graphs/CNC/CNC Box Plot.png"]
 
     graph_height = 700
-    app.create_images(HCE_image_tab, HCE_images_to_display, HCE_path_to_images, graph_height)
-    app.create_images(CNC_image_tab, CNC_images_to_display, CNC_path_to_images, graph_height)
+    app.create_images(app.tab, HCE, HCE_images_to_display, HCE_path_to_images, graph_height)
+    app.create_images(app.tab, CNC, CNC_images_to_display, CNC_path_to_images, graph_height)
     app.mainloop()
