@@ -144,6 +144,7 @@ class App(ctk.CTk):
             columnspan=2,
             sticky="new")
 
+
         self.exit_button = ctk.CTkButton(
             self,
             font=("PublicSans-Regular", 20),
@@ -159,7 +160,7 @@ class App(ctk.CTk):
             sticky="esw",
             columnspan=2)
 
-    def create_images(self, tab, images_to_display, path_to_images, image_height):
+    def create_images(self, tab, tab_name, images_to_display, path_to_images, image_height):
         self.image_labels = Titles(tab, images_to_display)
         self.image_labels.grid(
             row=0,
