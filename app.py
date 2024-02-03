@@ -145,6 +145,7 @@ class App(ctk.CTk):
             sticky="new")
 
 
+
         self.exit_button = ctk.CTkButton(
             self,
             font=("PublicSans-Regular", 20),
