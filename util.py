@@ -98,18 +98,6 @@ def numeric_decorator_double(func):
     return wrapper
 
 
-@numeric_decorator_single
-def split_three_point_time(data):
-    index = len(data.index)
-    largest_std = 0
-    for i in range(0, index, 1):
-        three_point_df = data.iloc[i:i + 3]
-        three_point_std = three_point_df.std(
-            skipna=True)
-        if three_point_std > largest_std:
-            largest_std = three_point_std
-            largest_std_index = i
-    return largest_std
 
 
 #######################################################################
@@ -132,7 +120,7 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
         file_name +
         "/" +
         file_name +
-        " Scatter Graph.png", scale = 5)
+        " Scatter Graph.png")
 
 
 def box_plot_to_image(data_frame, y, title, file_name):
@@ -142,7 +130,7 @@ def box_plot_to_image(data_frame, y, title, file_name):
         title=title,
         title_x=0.5
     )
-    fig.write_image("graphs/" + file_name + "/" + file_name + " Box Plot.png", scale = 5)
+    fig.write_image("graphs/" + file_name + "/" + file_name + " Box Plot.png")
 #######################################################################
 # Section of code that is used to find avg difference between values. #
 #######################################################################
@@ -157,6 +145,19 @@ def avg_differences(first_data_frame, second_data_frame):
     second_mean = second_data_frame.mean()
     return_value = larger_smaller_decorator(lambda x, y: x - y)
     return first_mean, second_mean, return_value(first_mean, second_mean)
+
+@numeric_decorator_single
+def split_three_point_time(data):
+    index = len(data.index)
+    largest_std = 0
+    for i in range(0, index, 1):
+        three_point_df = data.iloc[i:i + 3]
+        three_point_std = three_point_df.std(
+            skipna=True)
+        if three_point_std > largest_std:
+            largest_std = three_point_std
+            largest_std_index = i
+    return largest_std
 
 #######################################################################
 #                           Main Function                             #
