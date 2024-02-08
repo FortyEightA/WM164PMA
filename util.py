@@ -1,12 +1,10 @@
 import pandas as pd
 import math
 import numpy as np
-import kaleido
-import plotly.express as px
-import plotly.graph_objects as go
 import scipy.stats as stats
 import time
-
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 class Data(pd.DataFrame):
     def __init__(self, data, name, location):
@@ -32,43 +30,17 @@ class Data(pd.DataFrame):
         print(self.head())
 
     def create_graph(self):
-        scatter_plot_to_image(
+        plt.style.use('nord.mplstyle')
+        return [scatter_plot(
             self,
             'Time',
             'PM1.0',
-            self.get_name(),
-            'markers',
-            self.get_name()
-        )
-        box_plot_to_image(
+        ), box_plot(
             self,
-            'PM1.0',
-            self.get_name(),
-            self.get_name()
-        )
+            'PM1.0'),
+        bar_plot(self,
+                 'PM1.0')]
 
-
-# Decorator to change nan values to 0.
-# Used previously to change nan values to 0, but now preceded with .dropna()
-
-# def float_nan_to_zero_decorator(func):
-#     def wrapper(x, y):
-#         if math.isnan(x):
-#             return func(0, y) if not (math.isnan(y)) else func(0, 0)
-#         elif math.isnan(y):
-#             return func(x, 0) if not (math.isnan(x)) else func(0, 0)
-#         else:
-#             return func(x, y)
-#     # Polymorphic wrapper ?
-#
-#     def wrapper(x):
-#         print(x)
-#         if math.isnan(x):
-#             return func(0)
-#         else:
-#             return func(x)
-#     return wrapper
-#
 # Decorator to arrange values so that x is always larger than y.
 
 
@@ -97,7 +69,17 @@ def numeric_decorator_double(func):
                 y['PM1.0'], errors='coerce'))
     return wrapper
 
+def numeric_decorator_specific(func):
+    def wrapper(df, x):
+        df[x] = pd.to_numeric(df[x], errors='coerce')
+        return func(df, x)
+    return wrapper
 
+def numeric_decorator_specific_double(func):
+    def wrapper(df, x, y):
+        df[y] = pd.to_numeric(df[y], errors='coerce')
+        return func(df, x, y)
+    return wrapper
 
 
 #######################################################################
@@ -107,31 +89,34 @@ def numeric_decorator_double(func):
 # Function that takes a dataframe, x and y axis, title, mode, and file#
 # name and creates a scatter plot image.
 
+@numeric_decorator_specific_double
+def scatter_plot(dataframe, x, y):
+    fig, ax = plt.subplots()
+    ticks = [dataframe[x].iloc[i] for i in range(0, len(dataframe[x]), int(len(dataframe[x])/6))]
+    ax.scatter(dataframe[x], dataframe[y], s=1)
+    ax.set_xticks(ticks)
+    ax.set_xlabel(x)
+    ax.set_ylabel(y)
+    ax.set_title(dataframe.get_name() + " Scatter Plot")
+    return fig
+    
+@numeric_decorator_specific
+def box_plot(data_frame, y):
+    fig, ax = plt.subplots()
+    data_frame['PM1.0'] = pd.to_numeric(data_frame['PM1.0'])
+    ax = data_frame.boxplot(column=['PM1.0'], return_type='axes', vert=False)
+    return fig
 
-def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=data_frame[x], y=data_frame[y], mode=mode))
-    fig.update_layout(
-        autotypenumbers='convert types',
-        title=title,
-        title_x=0.5)
-    fig.write_image(
-        "graphs/" +
-        file_name +
-        "/" +
-        file_name +
-        " Scatter Graph.png",
-        engine="kaleido")
+@numeric_decorator_specific
+def bar_plot(data_frame, x):
+    fig, ax = plt.subplots()
+    ax.hist(data_frame[x], bins=12, edgecolor='black', linewidth=0.5)
+    ax.set_title(data_frame.get_name() + " Histogram")
+    ax.set_xlabel(x)
+    ax.set_ylabel('Frequency')
+    return fig
 
 
-def box_plot_to_image(data_frame, y, title, file_name):
-    fig = px.box(data_frame, y=data_frame[y], title=title)
-    fig.update_layout(
-        autotypenumbers='convert types',
-        title=title,
-        title_x=0.5
-    )
-    fig.write_image("graphs/" + file_name + "/" + file_name + " Box Plot.png", engine="kaleido")
 #######################################################################
 # Section of code that is used to find avg difference between values. #
 #######################################################################
@@ -182,27 +167,3 @@ def read_data():
     cnc_data_frame = Data(
         data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
     return hce_data_frame, cnc_data_frame
-
-# def main():
-#     t1 = time.time()
-#     main_data_frame = pd.read_csv('DTS WM164.csv')
-#     data_data_frame = main_data_frame.iloc[8:, :]
-#     data_data_frame.columns = [
-#         'Date',
-#         'Time',
-#         'PM1.0',
-#         'Date',
-#         'Time',
-#         'PM1.0']
-#     hce_data_frame = Data(
-#         data_data_frame.iloc[:, 0:3], name='HCE', location='HCE')
-#     cnc_data_frame = Data(
-#         data_data_frame.iloc[:, 3:6], name='CNC', location='CNC')
-#     print(avg_differences(hce_data_frame, cnc_data_frame))
-#     print(split_three_point_time(hce_data_frame))
-#     tf = time.time() - t1
-#     print(tf)
-#
-#
-# if __name__ == '__main__':
-#     main()
