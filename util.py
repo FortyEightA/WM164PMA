@@ -1,10 +1,10 @@
 import pandas as pd
 import math
 import numpy as np
+import kaleido
 import plotly.express as px
 import plotly.graph_objects as go
 import scipy.stats as stats
-import kaleido
 import time
 
 
@@ -120,7 +120,8 @@ def scatter_plot_to_image(data_frame, x, y, title, mode, file_name):
         file_name +
         "/" +
         file_name +
-        " Scatter Graph.png")
+        " Scatter Graph.png",
+        engine="kaleido")
 
 
 def box_plot_to_image(data_frame, y, title, file_name):
@@ -130,7 +131,7 @@ def box_plot_to_image(data_frame, y, title, file_name):
         title=title,
         title_x=0.5
     )
-    fig.write_image("graphs/" + file_name + "/" + file_name + " Box Plot.png")
+    fig.write_image("graphs/" + file_name + "/" + file_name + " Box Plot.png", engine="kaleido")
 #######################################################################
 # Section of code that is used to find avg difference between values. #
 #######################################################################
