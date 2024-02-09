@@ -105,6 +105,8 @@ def box_plot(data_frame, y):
     fig, ax = plt.subplots()
     data_frame['PM1.0'] = pd.to_numeric(data_frame['PM1.0'])
     ax = data_frame.boxplot(column=['PM1.0'], return_type='axes', vert=False)
+    ax.set_title(data_frame.get_name() + " Box Plot")
+    ax.set_xlabel('PM1.0')
     return fig
 
 @numeric_decorator_specific

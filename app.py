@@ -16,9 +16,9 @@ class Titles(ctk.CTkFrame):
     def __init__(self, master, titles, fg_color_input="transparent", font_size=20):
         super().__init__(master, fg_color=fg_color_input)
 
-        self.width = self.winfo_screenwidth()
+        self.width_measurement = self.winfo_screenwidth()
         if isinstance(master, tk.Frame):
-            self.width -= 50
+            self.width_measurement -= 50
 
 # Array for each column
         self.title_arr = [[], [], [], [], [], [], [], []]
@@ -30,7 +30,7 @@ class Titles(ctk.CTkFrame):
                 self.title = ctk.CTkLabel(
                     self,
                     text=each_title_in_row,
-                    width=(int(self.width / len(titles)) - 20),
+                    width=(int(self.width_measurement / len(titles)) - 20),
                     font=("PublicSans-Regular", font_size),
                     corner_radius=6)
                 self.title.grid(
@@ -47,7 +47,7 @@ class Images(ctk.CTkFrame):
 
         self.path_to_images = path_to_images
         
-        self.width = self.winfo_width()
+        self.width_measurement = self.winfo_width()
 
         self.height = height
 
@@ -75,12 +75,14 @@ class Images(ctk.CTkFrame):
 class Graph(ctk.CTkFrame):
     def __init__(self, master, graphs, fg_color="transparent"):
         super().__init__(master, fg_color="transparent")
-        self.width=self.winfo_width()
+
+        size_inch= (self.winfo_screenwidth()-50 // len(graphs)) / (192*2)
         self.canvi = []
         for i, graph in enumerate(graphs):
             self.grid_rowconfigure(0, weight=1)
             self.grid_columnconfigure(i, weight=1)
-
+            graph.set_size_inches(size_inch, size_inch)
+            graph.set_dpi(192//2)
             canvas=FigureCanvasTkAgg(graph, master=self)
             canvas.get_tk_widget().grid(row=0, column=i, padx=10, sticky="new")
             toolbar = NavigationToolbar2Tk(canvas, self, pack_toolbar=False)
@@ -89,13 +91,16 @@ class Graph(ctk.CTkFrame):
             canvas.draw()
             canvas.mpl_connect(
                 "key_press_event", key_press_handler)
+
             self.canvi.append(canvas)
+
     def destroy(self):
         for canvas in self.canvi:
             canvas.get_tk_widget().destroy()
+            
 class Tab(ctk.CTkTabview):
-    def __init__(self, master):
-        super().__init__(master)
+    def __init__(self, master, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
     
         self.add("HCE")
         self.add("CNC")
@@ -157,7 +162,7 @@ class App(ctk.CTk):
             columnspan=2,
             sticky="new")
         
-        self.tab = Tab(self)
+        self.tab = Tab(self, corner_radius=6)
         self.tab.grid(
             row=4,
             column=0,
@@ -196,7 +201,6 @@ class App(ctk.CTk):
             pady=(10, 0),
             columnspan=2,
             sticky="new")
-        self.titles.grid_columnconfigure((0, 1), weight=1)
         self.graphs = Graph(tab, top_graphs)
         self.graphs.grid(
             row=1,
