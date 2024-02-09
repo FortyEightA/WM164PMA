@@ -1,8 +1,6 @@
-kaleido==0.1.0post1
 numpy
 pandas
 customtkinter
-plotly
-pillow
 scipy
 pytest
+matplotlib
