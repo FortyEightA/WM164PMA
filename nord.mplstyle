@@ -1,0 +1,58 @@
+# For Nord Deep Version 0.1.623
+
+
+legend.frameon: True
+legend.numpoints: 1
+legend.scatterpoints: 1
+xtick.direction: out
+ytick.direction: out
+axes.axisbelow: True
+font.family: sans-serif
+grid.linestyle: -
+lines.solid_capstyle: round
+
+axes.grid: True
+axes.edgecolor: e5e9f0
+axes.linewidth: 2
+xtick.major.size: 10
+ytick.major.size: 5
+xtick.minor.size: 0
+ytick.minor.size: 0
+
+text.color: e5e9f0
+axes.labelcolor: e5e9f0
+xtick.color: e5e9f0
+ytick.color: e5e9f0
+grid.color: e5e9f0
+grid.alpha: 0.5
+
+font.sans-serif: Overpass, Helvetica, Helvetica Neue, Arial, Liberation Sans, DejaVu Sans, Bitstream Vera Sans, sans-serif
+axes.prop_cycle: cycler('color', ['81a1c1', 'bf616a', '8fbcbb', 'a3be8c', 'b48ead', 'ebcb8b'])
+image.cmap: PuBu
+figure.facecolor: 2E3440
+axes.facecolor: 2E3440
+savefig.facecolor: 2E3440
+
+patch.edgecolor: e5e9f0
+errorbar.capsize: 5
+
+boxplot.boxprops.color: e5e9f0
+boxplot.capprops.color: e5e9f0
+boxplot.flierprops.color: e5e9f0
+boxplot.flierprops.markeredgecolor: e5e9f0
+boxplot.flierprops.markerfacecolor: 81a1c1
+boxplot.meanprops.color: e5e9f0
+boxplot.medianprops.color: bf616a
+boxplot.whiskerprops.color: e5e9f0
+
+boxplot.boxprops.linewidth: 2
+boxplot.capprops.linewidth: 2
+boxplot.flierprops.linewidth: 2
+boxplot.flierprops.markeredgewidth: 1
+boxplot.flierprops.markersize: 7
+boxplot.whiskerprops.linewidth: 2
+boxplot.meanprops.linewidth: 2
+boxplot.medianprops.linewidth: 2
+boxplot.showmeans: False
+
+# lines.markeredgecolor: b48ead
