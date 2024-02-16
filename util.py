@@ -201,7 +201,7 @@ def split_three_point_time(data):
 
 # Method to read data from a csv file and return two dataframes.
 def read_data():
-    main_data_frame = pd.read_csv("DTS WM164.csv")
+    main_data_frame = pd.read_csv("WM164 Assignment Data Option 1.csv")
     data_data_frame = main_data_frame.iloc[8:, :]
     data_data_frame.columns = ["Date", "Time", "PM1.0", "Date", "Time", "PM1.0"]
 
