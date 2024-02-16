@@ -1,7 +1,6 @@
 import pytest
-import app
+import util as app
 import pandas as pd
-
 
 class Test_data_class():
     # Arrange
@@ -14,7 +13,8 @@ class Test_data_class():
         client = app.Data(
             data=self.test_df,
             name=self.test_name,
-            location=self.test_location)
+            location=self.test_location
+        )
         name = client.get_name()
         location = client.get_location()
 # Assert
@@ -26,7 +26,8 @@ class Test_data_class():
         client = app.Data(
             data=self.test_df,
             name=self.test_name,
-            location=self.test_location)
+            location=self.test_location
+        )
         client.set_name("new_name")
         client.set_location("new_location")
         name = client.get_name()
@@ -40,7 +41,8 @@ class Test_data_class():
         client = app.Data(
             data=self.test_df,
             name=self.test_name,
-            location=self.test_location)
+            location=self.test_location
+        )
         display = client.display()
 # Assert
         captured = capsys.readouterr()
@@ -57,7 +59,7 @@ class Test_avg_diff():
         # Act
         result = app.avg_differences(self.first_test_df, self.second_test_df)
 # Assert
-        assert result == 5
+        assert result == (3.0, 8.0, 5.0)
 
 
 class Test_numeric_decorator():
@@ -67,6 +69,7 @@ class Test_numeric_decorator():
 
     def simple_return_single(self, test_df):
         return test_df
+    
     control_df = pd.DataFrame({'PM1.0': [1, 2, 3, 4, 5]})
     test_df = pd.DataFrame({'PM1.0': [1, 2, 3, 4, '5']})
 
@@ -74,7 +77,8 @@ class Test_numeric_decorator():
         # Act
         result, result2 = app.numeric_decorator_double(
             self.simple_return_double)(
-            self.control_df, self.test_df)
+            self.control_df, self.test_df
+        )
 # Assert
         assert result.dtype == result2.dtype
 
@@ -87,4 +91,4 @@ class Test_three_point():
         # Act
         result = app.split_three_point_time(self.test_df)
 # Assert
-        assert result == 5
+        assert result == (5.0, [3, 4, 5])
