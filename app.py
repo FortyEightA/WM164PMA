@@ -264,7 +264,8 @@ if __name__ == "__main__":
     hce_std, hce_std_3pt = util.split_three_point_time(hce_data_frame)
     cnc_std, cnc_std_3pt = util.split_three_point_time(cnc_data_frame)
 
-    largest_std = util.larger_smaller_decorator(lambda x, y: x if x > y else y)(
+    largest_std = util.larger_smaller_decorator(
+        lambda x, y: x if x > y else y)(
         hce_std, cnc_std
     )
 
@@ -295,8 +296,10 @@ if __name__ == "__main__":
     )
 
     app.main_text_boxes.title_arr[1][1].configure(
-        text=f"Time of Largest 3pt Window STD: {largest_df["Time"].iloc[largest_3pt[0]]}, {
-        largest_df["Time"].iloc[largest_3pt[1]]}, {largest_df["Time"].iloc[largest_3pt[2]]}",
+        text=f"Time of Largest 3pt Window STD: {
+        largest_df["Time"].iloc[largest_3pt[0]]}, {
+        largest_df["Time"].iloc[largest_3pt[1]]}, {
+        largest_df["Time"].iloc[largest_3pt[2]]}",
         corner_radius=0
     )
 
